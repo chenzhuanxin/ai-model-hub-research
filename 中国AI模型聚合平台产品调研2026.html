@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国 AI 模型聚合平台产品调研 2026</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312564C'/%3E%3Ccircle cx='13' cy='13' r='5' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3Cpath d='M10.5 22.5c1.4-2 3.1-3 5-3s3.6 1 5 3' fill='none' stroke='%23C4762A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<style>
+:root{
+  --ink:#1F2329;
+  --ink-2:#646A73;
+  --ink-3:#8A939B;
+  --line:#DEE3E8;
+  --line-2:#EDF1F4;
+  --primary:#12564C;
+  --primary-soft:#E8F0EE;
+  --accent:#C4762A;
+  --accent-soft:#FAEFE3;
+  --bg:#FFFFFF;
+  --bg-soft:#F7F9FA;
+  --serif:"Noto Serif SC","Songti SC",Georgia,"Microsoft YaHei",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+/* ===== 报头 ===== */
+.masthead{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:0;}
+.kicker{
+  font-size:13px;letter-spacing:.14em;color:var(--primary);
+  font-weight:700;margin:0 0 18px;text-transform:none;
+}
+h1.title{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,4.6vw,50px);line-height:1.22;letter-spacing:-.01em;
+  margin:0 0 16px;max-width:20em;
+}
+.subtitle{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:44em;line-height:1.7;}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:10px 34px;font-size:13.5px;color:var(--ink-2);
+  border-top:1px solid var(--line);padding-top:14px;
+}
+.meta-row b{color:var(--ink);font-weight:700;}
+
+.strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-bottom:1px solid var(--line);margin-bottom:0;
+}
+.strip .cell{padding:22px 22px 22px 0;border-right:1px solid var(--line-2);}
+.strip .cell:last-child{border-right:0;}
+.strip .num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.1vw,34px);
+  color:var(--primary);line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.strip .lbl{font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55;}
+
+/* ===== 章节 ===== */
+section{padding:54px 0 8px;border-bottom:1px solid var(--line-2);}
+section:last-of-type{border-bottom:0;}
+h2.sec{
+  font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.6vw,28px);
+  margin:0 0 8px;line-height:1.3;display:flex;gap:14px;align-items:baseline;
+}
+h2.sec .no{
+  font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;flex:none;padding-top:6px;
+}
+.lede{font-size:16.5px;color:var(--ink-2);max-width:46em;margin:0 0 26px;line-height:1.8;}
+p{margin:0 0 16px;}
+h3{font-family:var(--serif);font-weight:600;font-size:18.5px;margin:30px 0 12px;}
+
+/* ===== 表格 ===== */
+.tablewrap{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);}
+table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:1120px;}
+thead th{
+  background:var(--bg-soft);text-align:left;font-weight:700;font-size:13.5px;
+  color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--line);
+  vertical-align:bottom;line-height:1.5;
+}
+tbody td{
+  padding:14px;border-bottom:1px solid var(--line-2);vertical-align:top;
+  font-size:14px;line-height:1.68;overflow-wrap:anywhere;
+}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#FCFDFD;}
+.pname{font-weight:700;font-size:14.5px;}
+.dev{display:block;color:var(--ink-3);font-size:12.5px;margin-top:3px;line-height:1.5;}
+.score{
+  font-family:var(--serif);font-weight:700;font-size:19px;color:var(--primary);
+  font-variant-numeric:tabular-nums;display:block;
+}
+.score.na{color:var(--ink-3);font-size:15px;}
+.basis{display:block;color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.55;}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(18,86,76,.35);}
+a:hover{border-bottom-color:var(--primary);}
+a.ext::after{content:"↗";font-size:.78em;vertical-align:.18em;margin-left:2px;color:var(--ink-3);}
+.note-inline{color:var(--ink-3);font-size:12.5px;}
+.tag{
+  display:inline-block;font-size:12px;font-weight:700;line-height:1.5;
+  padding:1px 8px;border:1px solid var(--line);color:var(--ink-2);
+  background:var(--bg-soft);margin-bottom:6px;margin-right:4px;
+}
+.tag.cat-video{color:#0E4A41;background:#E8F0EE;border-color:#C9DCD6;}
+.tag.cat-live{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+.tag.cat-clone{color:#1F4E79;background:#E8EFF5;border-color:#C9D8E6;}
+.tag.cat-interactive{color:#4C5636;background:#EFF1E6;border-color:#D5DAC4;}
+.tag.free{color:#fff;background:var(--primary);border-color:var(--primary);}
+.tag.paid{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+ul.tight{margin:0;padding-left:18px;}
+ul.tight li{margin-bottom:5px;}
+
+/* ===== 图表 ===== */
+.chart-card{border:1px solid var(--line);padding:22px 20px 12px;margin:0 0 10px;background:var(--bg);}
+.chart-title{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:0 0 4px;}
+.chart-sub{font-size:13px;color:var(--ink-2);margin:0 0 14px;line-height:1.62;}
+.chart{width:100%;height:520px;}
+.chart.tall{height:640px;}
+.caption{font-size:12.5px;color:var(--ink-3);line-height:1.7;margin:6px 0 0;}
+
+/* ===== 结论块 ===== */
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+.findings .f{padding:24px 24px 8px 0;border-right:1px solid var(--line-2);}
+.findings .f:last-child{border-right:0;padding-right:0;}
+.findings .f .t{font-family:var(--serif);font-weight:700;font-size:16.5px;margin:0 0 8px;line-height:1.5;}
+.findings .f p{font-size:14px;color:var(--ink-2);line-height:1.72;margin:0;}
+
+/* ===== 时间线 ===== */
+.timeline{margin:6px 0 0;position:relative;}
+.timeline::before{
+  content:"";position:absolute;top:11px;bottom:11px;
+  left:116.5px;width:1px;background:var(--line);
+}
+.tnode{display:grid;grid-template-columns:104px 26px 1fr;align-items:start;}
+.tnode .when{
+  font-size:13px;font-weight:700;color:var(--primary);text-align:right;
+  padding-right:10px;line-height:22px;font-variant-numeric:tabular-nums;
+}
+.tnode .axis{display:flex;justify-content:center;}
+.tnode .dot{position:relative;z-index:1;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--primary);margin-top:6px;}
+.tnode.hot .dot{background:var(--accent);border-color:var(--accent);}
+.tnode .body{padding:0 0 22px 14px;}
+.tnode:last-child .body{padding-bottom:0;}
+.tnode .what{font-weight:700;font-size:15px;margin:0 0 3px;line-height:1.55;}
+.tnode .why{font-size:14px;color:var(--ink-2);margin:0;line-height:1.7;}
+
+/* ===== 待确认 ===== */
+.todo{border-top:1px solid var(--line);}
+.todo .t{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2);}
+.todo .t .n{font-family:var(--serif);font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;font-size:15px;}
+.todo .t .c{font-size:14px;line-height:1.72;color:var(--ink);}
+.todo .t .c b{font-weight:700;}
+
+/* ===== 信源索引 ===== */
+.srcgrp{margin-bottom:28px;}
+.srcgrp h3{margin-top:0;}
+.srclist{margin:0;padding:0;}
+.srcitem{display:grid;grid-template-columns:112px 1fr;gap:12px;margin-bottom:12px;list-style:none;}
+.srclabel{font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;}
+.srcbody{font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.srcfield{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-3);}
+
+footer{padding:34px 0 56px;color:var(--ink-3);font-size:13px;line-height:1.8;}
+footer b{color:var(--ink-2);}
+
+@media (max-width:960px){
+  .strip{grid-template-columns:repeat(2,1fr);}
+  .strip .cell:nth-child(2){border-right:0;}
+  .strip .cell{border-bottom:1px solid var(--line-2);padding-right:16px;}
+  .strip .cell:nth-child(3),.strip .cell:nth-child(4){border-bottom:0;}
+  .findings{grid-template-columns:1fr;}
+  .findings .f{border-right:0;border-bottom:1px solid var(--line-2);padding:20px 0 14px;}
+  .findings .f:last-child{border-bottom:0;}
+  .tablewrap{border:0;overflow:visible;}
+  table{min-width:0;table-layout:auto;display:block;}
+  thead{display:none;}
+  tbody{display:block;}
+  tbody tr{display:block;border:1px solid var(--line);margin-bottom:14px;padding:4px 0;}
+  tbody td{display:grid;grid-template-columns:88px 1fr;gap:10px;border-bottom:1px solid var(--line-2);padding:10px 14px;font-size:13.5px;}
+  tbody td:last-child{border-bottom:0;}
+  tbody td::before{
+    content:attr(data-label);font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;
+  }
+  .chart{height:640px;}
+  .chart.tall{height:840px;}
+  .tnode{grid-template-columns:78px 20px 1fr;}
+  .tnode .when{font-size:12px;padding-right:7px;}
+  .tnode .body{padding-left:10px;}
+  .timeline::before{left:87.5px;}
+  .meta-row{font-size:14px;}
+  .strip .lbl{font-size:13.5px;}
+  .findings .f p{font-size:14.5px;}
+  tbody td{font-size:14.5px;grid-template-columns:98px 1fr;}
+  tbody td::before{font-size:13px;}
+  .dev{font-size:14px;}
+  .tablewrap a.ext{display:inline-block;padding:10px 0;}
+  .srcitem{grid-template-columns:1fr;gap:2px;}
+  .srclabel{font-size:13px;}
+  .srcbody{font-size:14.5px;}
+  .kicker{font-size:14px;}
+  .strip .lbl{font-size:14px;}
+  .tag{font-size:14px;}
+  h2.sec .no{font-size:14px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px;}
+  .chart{height:720px;}
+  .tnode{grid-template-columns:66px 16px 1fr;}
+  .timeline::before{left:73.5px;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">AI 模型聚合平台调研 · 中国（大陆）· 2026 年 10 月口径</p>
+    <h1 class="title">中国 AI 模型聚合平台产品调研</h1>
+    <p class="subtitle">覆盖聚合路由平台、云厂商开放平台、模型厂商开放平台与推理 / 算力平台四类共 20 个在营平台：谁在做、能免费用多少、按每百万 tokens 卖什么价、统一接入多模型的能力处在什么水位。每个平台附官方域名、免费额度具体口径、输入 / 输出分列价格与可溯源信源。</p>
+    <div class="meta-row">
+      <span>数据口径：<b>截至 2026-10-08</b></span>
+      <span>计价货币：<b>人民币（CNY）</b></span>
+      <span>信源交叉：<b>官方文档 / 科技媒体 / 开发者社区</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <div class="cell"><div class="num">20</div><div class="lbl">可评分在营平台</div></div>
+    <div class="cell"><div class="num">12</div><div class="lbl">含免费额度或免费模型</div></div>
+    <div class="cell"><div class="num">¥0.8–12</div><div class="lbl">代表模型输入价（每百万 tokens）</div></div>
+    <div class="cell"><div class="num">4</div><div class="lbl">覆盖平台类型数</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<section>
+  <h2 class="sec"><span class="no">01</span>核心结论</h2>
+  <p class="lede">国内的模型聚合层在 2025—2026 年完成了一轮明显分化：开源权重把 API 单价从「元/千 tokens」打到「元/百万 tokens」之后，平台的竞争点从「谁更便宜」转向「谁限流更松、模型更全、故障切换更稳」；同时大厂开放平台把免费额度从「永久」改成「90 天 / 首购一次性」，免费时代正在收口。</p>
+  <div class="findings">
+    <div class="f"><p class="t">「一个密钥调多模型」已是及格线，差异在路由与限流</p><p>本轮核验的 20 个平台中，除智谱、MiniMax、百川、DeepSeek 等自研厂商外，其余平台均以「统一 OpenAI 兼容接口 + 模型广场」为基本形态：阿里云百炼、火山方舟、腾讯云 TokenHub 把自研与第三方模型收进同一网关，硅基流动、蓝耘元生代、天翼云星辰 TokenHub 则以聚合分发为主业。真正拉开差距的是限流与稳定性——百炼、方舟、TokenHub 与 MiniMax 公开了 RPM / TPM 口径（如 MiniMax 默认 500 RPM / 2000 万 TPM，千帆预置服务默认 5 QPS 并支持企业级提额），而多数中小平台只给「以控制台为准」。</p></div>
+    <div class="f"><p class="t">免费额度从「永久」转向「限时 + 首购一次性」</p><p>20 个平台中 12 个提供免费额度或永久免费模型，但口径明显收紧：阿里云百炼的通义系免费额度由永久改为「开通后 90 天内有效」，火山方舟按「每个模型 50 万 tokens」在首次开通时一次性发放，天翼云星辰 TokenHub 的 50 万 tokens 只有 14 天有效期，无问芯穹更在 2026-03-30 直接取消了基础版 LLM API 免费服务。仍属「可持续免费」的主要是三类：腾讯云 TokenHub 的每模型 100 万 tokens（有效期 1 年）、讯飞星火个人 200 万 tokens 免费包、以及硅基流动与魔搭的多款永久免费模型 / 每日重置额度。</p></div>
+    <div class="f"><p class="t">价格战停在「开源权重托管」这一层，旗舰自研模型仍是价格锚</p><p>第三方托管把开源权重的价格压到 DeepSeek-V3.2 输入 2 元/百万、GLM-5 输入 4 元/百万的量级；而自研旗舰的价格锚点反而在上移：GLM-5.3 输入 8 元 / 输出 28 元，qwen3.8-max 输入 12 元 / 输出 36 元，Doubao-Seed-Evolving 输入 6 元 / 输出 30 元。DeepSeek 在 2026-05 宣布 V4-Pro 永久降价至原价约 1/4 之后，又于 2026-08-17 引入峰谷计价、高峰时段输入 9 元 / 输出 27 元，说明「比原厂更便宜」这条路已经走到边界，平台要么靠路由与批量折扣挤出利润，要么向订阅套餐（Coding Plan / Token Plan）转移。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">02</span>产品字段总表</h2>
+  <p class="lede">同一行回答同一组问题：谁开发的、属于哪一类平台、官方域名是什么、能免费用多少、按每百万 tokens 卖什么价、特点与局限在哪。评分为主观共识评分（首句标明共识区间），非厂商指标；价格为 2026-10-08 的公开口径，国内平台一律以人民币表示。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup>
+        <col style="width:15%"><col style="width:7%"><col style="width:13%">
+        <col style="width:12%"><col style="width:17%"><col style="width:16%"><col style="width:20%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>产品 / 开发方</th>
+          <th>评分</th>
+          <th>评分依据</th>
+          <th>官方入口</th>
+          <th>免费额度</th>
+          <th>价格</th>
+          <th>特点与局限</th>
+        </tr>
+      </thead>
+      <tbody id="mainTable">
+      </tbody>
+    </table>
+  </div>
+  <p class="caption" id="tableCaption"></p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">03</span>综合质量评分对比</h2>
+  <p class="lede">评分为主观共识评分，由作者综合官方文档、科技媒体评测与开发者社区口碑给出，满分 10 分，首句标注共识区间。评估维度：模型覆盖面（含开源模型与第三方旗舰）、统一接入与路由能力、价格与免费额度性价比、限流与稳定性、文档与开发者体验；四类平台（聚合路由 / 云厂商 / 模型厂商 / 推理算力）按自身核心维度加权。</p>
+  <div class="chart-card">
+    <p class="chart-title">20 个国内 AI 模型聚合平台的综合质量评分（满分 10）</p>
+    <p class="chart-sub">颜色区分平台类型：深青为聚合路由平台，赭色为云厂商开放平台，蓝为模型厂商开放平台，橄榄为推理 / 算力平台。</p>
+    <div class="chart tall" id="chartScore"></div>
+    <p class="caption">数据口径：2026-10-08。评分非厂商官方指标。</p>
+  </div>
+  <p>第一梯队由四类平台各占一席：阿里云百炼（8.6）、火山方舟（8.5）与 DeepSeek 开放平台（8.5）、智谱 AI（8.4）。评分差异主要不来自「有没有模型」——20 个平台都能调到 Qwen / DeepSeek / GLM 这一档开源权重——而是模型覆盖的完整度、限流与并发的公开程度，以及文档是否把价格、限流、错误码讲清楚。云厂商平台胜在模型最全与工具链闭环（百炼、方舟、TokenHub），模型厂商平台胜在自研旗舰的能力与缓存折扣（智谱、MiniMax、DeepSeek）；纯聚合与算力平台则以「同款模型更便宜、可切换」为价值，评分多在 7.2–8.1 区间。需要说明的是四类平台不宜直接横向比较：云厂商看的是企业治理与区域，聚合平台看的是路由与比价，本图只按各自核心维度加权后的综合分排序。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">04</span>价格与免费额度的位置</h2>
+  <p class="lede">把「最低付费门槛」和「质量评分」放在同一坐标系，看免费与付费档的分布规律：横轴为可查证的最低付费月费，无固定月费者记 0。</p>
+  <div class="chart-card">
+    <p class="chart-title">最低付费门槛与质量评分的关系</p>
+    <p class="chart-sub">横轴为可查证的最低付费月费（元/月），无固定月费（纯按量或可直接免费使用）记 0；纵轴为综合评分。深青为含可持续免费档的平台（额度随时间重置或长期有效），赭色为仅一次性 / 限时赠送或需订阅付费的平台。纯按量计费且无免费档的平台（DeepSeek、月之暗面、百川、百度千帆、蓝耘元生代、模力方舟）未纳入本图。</p>
+    <div class="chart" id="chartPrice"></div>
+    <p class="caption">未纳入本图的条目及其原因见总表与待确认清单；订阅档高于 300 元/月的套餐（如腾讯云 TokenHub 企业版 500 元/月、智谱 Coding Plan 高阶档）超出坐标范围。</p>
+  </div>
+  <p>把门槛与评分放在一起可以看到两点：其一，国内聚合平台几乎没有固定月费门槛——14 个可定位的平台中 9 个记 0，只有智谱（Coding Plan 20 元/月起）、天翼云（Token Plan 29 元/月起）、MiniMax（Token Plan 49 元/月起）、阶跃星辰与讯飞星辰（套餐 99–200 元/月）把套餐做成独立商品；其二，门槛高低与质量基本无关，8.4–8.6 分的百炼、方舟、智谱分别落在 0 元与 20 元档，而门槛最高的讯飞（200 元/月套餐）评分与 0 元档的腾讯云 TokenHub 相近。免费额度的差异更能说明策略：可持续免费（每日重置、长期有效的免费模型、1 年有效的免费包）集中在腾讯云 TokenHub、硅基流动、魔搭、讯飞、智谱与 AI Ping；一次性或限时额度则是百炼（90 天）、火山方舟（首次开通）、天翼云（14 天）与商汤（活动已结束）的共同特征。换句话说，国内免费额度正在从「注册即得的永久池」变成「限时体验 + 订阅付费」。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">05</span>关键节点（2024—2026）</h2>
+  <p class="lede">按公开可查的发布、降价、停服与策略变化时点排列，用于理解国内模型聚合格局是怎么形成的。</p>
+  <div class="timeline" id="timeline"></div>
+  <p style="margin-top:22px;">这条时间线的主线是价格与额度的双向收紧：2025 年下半年 MiniMax 用开源 M2 把旗舰价格锚点拉低，DeepSeek 则用峰谷计价与降价交替试探；2026 年第三方聚合（AI Ping、蓝耘、天翼云）与「Token 工厂」（商汤大装置、模力方舟）成为增量，而免费额度在无问芯穹、零一万物等平台上先后收缩或终止。对采购方的直接含义是：把「按量 + 可切换」作为默认架构，用聚合平台做比价与容灾，而不是把业务押在单一平台的免费额度上。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">06</span>厂商能力核验</h2>
+  <p class="lede">检索与用户情报中重点点名、但容易被误认为「模型聚合平台」的对象，逐一给出核验结论；已停服、非此类产品或非官方渠道就如实写入排除清单。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:16%"><col style="width:68%"></colgroup>
+      <thead>
+        <tr><th>厂商 / 产品</th><th>核验结论</th><th>说明</th></tr>
+      </thead>
+      <tbody id="verifyTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">07</span>信源索引</h2>
+  <p class="lede">按平台分组，每个平台至少 2–3 条来源，标注每条来源支撑哪些字段。三类信源交叉验证：官方站点 / 官方文档、科技媒体、开发者社区（含用户实测）。</p>
+  <div id="sourceIndex"></div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">08</span>待确认与无法核实项</h2>
+  <p class="lede">以下条目在本轮公开检索范围内无法取得可靠官方口径，如实列出，未作推测填补；表中相应字段已标注「待确认」。</p>
+  <div class="todo" id="todoList"></div>
+</section>
+
+<footer>
+  <p><b>方法与免责：</b>本报告信息采集截止北京时间 2026 年 10 月 8 日，国内平台价格一律以人民币计（海外平台引用美元原值并在 cny 字段约合人民币，按 1 USD ≈ 7.1 CNY 估算，均为量级参考）。“综合质量评分”为主观共识评分，由作者综合官方文档、科技媒体评测结论与开发者社区口碑给出，非厂商官方指标，也不等同于客观基准测试；同一模型在不同平台上的限流、稳定性与计费细节差异较大，评分与结论仅供选型参考。</p>
+  <p><b>已剔除的非官方来源：</b>第三方域名自称官方、以「官方直连 / 更低折扣」名义转售模型的 API 中转站，以及无法核实主体的报价页面，均不作为官方依据；带推广性质的内容源已在引用时单独标注，并与官方文档交叉验证。</p>
+  <p>价格、免费额度与限流策略变动频繁，正式采购前请以厂商官方页面与控制台实时口径为准。</p>
+</footer>
+
+<script>
+/* =====================================================================
+   填充说明（两个子代理按此规范填充，勿改动 CSS 与渲染函数结构）：
+   1. PRODUCTS：每个产品一个对象，字段见下。cat 取值 agg/cloud/vendor/infra；
+      score 为 10 分制主观共识分（可小数，null 表示不评分，如"无此能力"条目）；
+      avail 取值 free（有免费额度）/ paid（付费或仅 API）；
+      site 为官方域名（label 显示名，url 链接）；
+      free 写免费额度具体口径；price 写价格（国内人民币；海外 USD 并附 cny 约合人民币）；
+      basis 写 10-25 字评分依据；note 写特点与局限（40-90 字）。
+   2. PRICE_POINTS：x=最低付费月费（元，免费记 0，海外换算为人民币），y=评分，free=true/false，lp=标签位置(top/bottom/right/left)。
+   3. TIMELINE：{when, what, why, hot}，hot=true 表示关键节点（赭色圆点）。
+   4. VERIFIED：{name, verdict, note}，verdict 可含 <span class="tag">…</span>。
+   5. SOURCES：按产品分组，items 为 [来源类型, 链接HTML(或纯文本), 支撑字段]。
+   6. TODOS：[产品, 待确认说明]。
+   7. 除数据数组外，还需替换：报头 kicker/h1/subtitle/meta-row、strip 四个数字、
+      各 section 的 lede 与解读段落、（01）核心结论三卡、（05）时间线总结。
+   8. 完成后用 Edge/Chrome 无头模式截桌面与移动两张图存入 _shots 目录并自查布局。
+===================================================================== */
+
+const PRODUCTS = [
+  {
+    name:"阿里云百炼 Model Studio", dev:"阿里云（Alibaba Cloud）", cat:"cloud",
+    score:8.6, avail:"free",
+    site:{label:"bailian.console.aliyun.com", url:"https://bailian.console.aliyun.com/"},
+    free:"通义系模型各 100 万 Token 免费额度，开通后 90 天内有效；部分第三方模型无免费额度",
+    price:"qwen3.7-max 输入 6 元 / 输出 18 元；qwen3.8-max 输入 12 元 / 输出 36 元；qwen3.8-flash 输入 0.8 元 / 输出 2.7 元；qwen-long 输入 0.5 元 / 输出 2 元（每百万 tokens）",
+    basis:"共识区间 8.4–8.8；模型最全、工具链与稳定性第一梯队",
+    note:"一个入口聚合通义、DeepSeek、Kimi、MiniMax、阶跃等第三方模型，配套 RAG、智能体与 Batch 半价，云上闭环最完整；短板是免费额度由「永久」改为 90 天有效期、国际站与国内站模型范围差异大，价格档位多、需按上下文长度阶梯计算。"
+  },
+  {
+    name:"火山方舟 Ark", dev:"字节跳动 · 火山引擎", cat:"cloud",
+    score:8.5, avail:"free",
+    site:{label:"volcengine.com/product/ark", url:"https://www.volcengine.com/product/ark"},
+    free:"首次开通后每个模型赠 50 万 tokens 免费推理额度（含豆包旗舰与部分第三方模型），图像模型另有免费张数",
+    price:"Doubao-Seed-Evolving 输入 6 元 / 输出 30 元（每百万 tokens，1M 上下文）；豆包系列按量计费，节省计划新客 5 折",
+    basis:"共识区间 8.3–8.7；自研+多模型广场，性价比与响应速度突出",
+    note:"自研豆包系列叠加第三方模型广场，免费额度按模型逐个发放、总量可观，Coding 与 Agent 工具链完善，缓存与批量推理折扣清晰；短板是部分模型需单独申请开通、资源包活动变动频繁，非豆包模型的价格优势不明显。"
+  },
+  {
+    name:"DeepSeek 开放平台", dev:"深度求索（DeepSeek）", cat:"vendor",
+    score:8.5, avail:"paid",
+    site:{label:"platform.deepseek.com", url:"https://platform.deepseek.com/"},
+    free:"无公开免费额度（官方价目页未列出新用户赠送 tokens）",
+    price:"deepseek-v4-pro 缓存未命中输入 9 元（高峰）/ 4.5 元（空闲）、缓存命中 0.30 / 0.15 元、输出 27 元（高峰）/ 13 元（空闲）；deepseek-flash 输入 1 元（空闲）、输出 4.5 元（每百万 tokens，2026-08-17 起峰谷计价）",
+    basis:"共识区间 8.3–8.7；开源权重+极致性价比，托管生态最广",
+    note:"官方 API 同时兼容 OpenAI 与 Anthropic 协议，V4 系列支持 1M 上下文，权重重开源使第三方托管平台可选择更多、价格更卷；短板是 2026-08-17 起执行峰谷计价、高峰时段涨幅明显，且不提供免费额度，海外访问与合规需自行处理。"
+  },
+  {
+    name:"智谱 AI 开放平台 BigModel", dev:"智谱华章（Zhipu AI）", cat:"vendor",
+    score:8.4, avail:"free",
+    site:{label:"bigmodel.cn", url:"https://www.bigmodel.cn/"},
+    free:"GLM-4-Flash 等轻量模型长期免费；知识库存储 1 GB 永久免费；旗舰模型另有新人体验额度",
+    price:"GLM-5.3 输入 8 元 / 缓存命中 2 元 / 输出 28 元；GLM-5.3-Flash 输入 0.8 元 / 输出 2.8 元（每百万 tokens）；Coding Plan 低至 20 元/月",
+    basis:"共识区间 8.2–8.6；自研模型能力与 API 营收验证领先",
+    note:"GLM 系列以 1M 上下文旗舰 + Flash 双线覆盖，缓存命中折扣大，编程套餐可与 Claude Code 等工具直接对接，Agent 工具链成熟；短板是旗舰单价高于同档开源模型托管，高峰期按倍率消耗额度，免费档能力受限。"
+  },
+  {
+    name:"腾讯云大模型服务平台 TokenHub", dev:"腾讯云（Tencent Cloud）", cat:"cloud",
+    score:8.2, avail:"free",
+    site:{label:"cloud.tencent.com/product/tokenhub", url:"https://cloud.tencent.com/product/tokenhub"},
+    free:"新用户每个语言模型赠 100 万 tokens 免费体验额度，有效期 1 年，限主账号领取一次",
+    price:"混元与第三方模型按量计费（低至 0.8 元 / 百万 tokens 级）；企业版 Token Plan 5 万积分 500 元/月，个人与家庭版 Token Plan 9.9 元起",
+    basis:"共识区间 8.0–8.4；统一网关覆盖混元与 14+ 第三方模型",
+    note:"把混元自研与 DeepSeek、GLM、MiniMax、Kimi 等第三方模型收进同一网关，免费额度按模型逐个领、总量价值高，合规与计费体系成熟；短板是积分与 tokens 之间需要额外换算，模型上下架节奏由平台控制，个人开发者文档入口较分散。"
+  },
+  {
+    name:"MiniMax 开放平台", dev:"MiniMax（稀宇科技）", cat:"vendor",
+    score:8.2, avail:"paid",
+    site:{label:"platform.minimaxi.com", url:"https://platform.minimaxi.com/"},
+    free:"待确认（未检索到官方公示的新用户免费 token 额度，Token Plan 为付费订阅）",
+    price:"MiniMax-M2 输入 2.1 元 / 输出 8.4 元 / 缓存读取 0.21 元；M2.7 输入 2.1 元 / 输出 8.4 元（每百万 tokens）；Token Plan 49 元/月起（Plus）",
+    basis:"共识区间 8.0–8.4；Agent 与编程场景性价比突出",
+    note:"M2 系列以「Sonnet 一成价格」切入 Agent 与编程场景，默认 500 RPM / 2000 万 TPM，国内站与海外站并行且价格一致；短板是模型矩阵偏窄（以文本为主、音乐模型已于 2026-08 停服），免费额度不透明，长文本与多模态弱于头部。"
+  },
+  {
+    name:"硅基流动 SiliconFlow", dev:"硅基流动（SiliconFlow）", cat:"agg",
+    score:8.1, avail:"free",
+    site:{label:"cloud.siliconflow.cn", url:"https://cloud.siliconflow.cn/"},
+    free:"新用户注册赠 16 元赠金（国际站为 1 美元）；Qwen2.5-7B 等多款小模型永久免费调用",
+    price:"DeepSeek-V3.1 输入 4 元 / 输出 12 元，Z-Image 0.3 元/张（每百万 tokens 口径），后付费无月费；部分模型低于原厂直购",
+    basis:"共识区间 8.0–8.4；国产模型覆盖与限免广度第一梯队",
+    note:"一个密钥调用 160+ 模型，OpenAI 兼容接口，国内站与国际站双线运营，免费模型数量在国内平台中领先，文档与 SDK 体验好；短板是热门旗舰模型高峰期限流明显，部分模型价格高于原厂，模型上下架频率高。"
+  },
+  {
+    name:"月之暗面 Kimi 开放平台", dev:"月之暗面（Moonshot AI）", cat:"vendor",
+    score:8.1, avail:"paid",
+    site:{label:"platform.moonshot.cn", url:"https://platform.moonshot.cn/"},
+    free:"待确认（未检索到官方公示的新用户免费 token 额度；K2.6 在 Kimi 消费端可免费使用）",
+    price:"kimi-k2.6 输入 6.5 元 / 缓存命中 1.1 元 / 输出 27 元；kimi-k2.7-code-highspeed 输入 13 元 / 输出 54 元；Batch 推理 5 折（每百万 tokens）",
+    basis:"共识区间 7.9–8.3；长上下文与 Agent 长程任务能力强",
+    note:"K2.6 主打长程代码与 Agent 自主执行，Batch 半价、缓存命中折扣大，同款模型也在阿里云百炼等第三方上架；短板是输出单价偏高、无免费额度，模型矩阵以文本与代码为主，多模态能力弱于综合型平台。"
+  },
+  {
+    name:"魔搭 ModelScope", dev:"魔搭社区（阿里巴巴）", cat:"infra",
+    score:8.0, avail:"free",
+    site:{label:"modelscope.cn", url:"https://www.modelscope.cn/"},
+    free:"社区模型每日免费调用额度（第三方整理口径为每日约 2000 次、单模型上限 500 次，需绑定阿里云账号，以官方页为准）",
+    price:"免费额度内 0 元；超出后按绑定云账号的按量价格计费，无固定月费",
+    basis:"共识区间 7.8–8.2；开源模型下载量与每日免费额度领先",
+    note:"国内最大的开源模型社区，模型下载、Notebook 与 API-Inference 一体，绑定阿里云即可获得每日免费调用，适合试验与学习；短板是免费额度按模型拆分、单模型上限低，属社区免费服务无商业 SLA，生产可用性弱于商业平台。"
+  },
+  {
+    name:"百度智能云千帆 Qianfan", dev:"百度智能云（Baidu AI Cloud）", cat:"cloud",
+    score:7.9, avail:"paid",
+    site:{label:"qianfan.cloud.baidu.com", url:"https://qianfan.cloud.baidu.com/"},
+    free:"待确认（免费额度以活动页与体验券形式发放，未取得统一官方数值）",
+    price:"DeepSeek-V3.1-Terminus 输入 4 元 / 输出 12 元（每百万 tokens，RPM 2500 / TPM 500000）；ERNIE 系列按上下文长度阶梯计价，价格页需登录控制台查看",
+    basis:"共识区间 7.6–8.2；模型齐全、行业方案与并发上限较优",
+    note:"文心自研与 DeepSeek 等第三方模型并行接入，预置服务默认 5 QPS、企业级并发上限高，配套 Comate 与行业解决方案；短板是价格与积分口径复杂、需登录控制台核算，文心系列相对竞争力下滑，个人开发者声量与免费额度存在感走低。"
+  },
+  {
+    name:"华为云 ModelArts Studio（MaaS）", dev:"华为云（Huawei Cloud）", cat:"cloud",
+    score:7.8, avail:"free",
+    site:{label:"huaweicloud.com · ModelArts Studio", url:"https://www.huaweicloud.com/notice/20260805172653249.html"},
+    free:"预置服务提供免费体验额度（部分模型额度不限但有时效、部分需领取），另有大模型通用代金券与免费服务额度",
+    price:"按量后付费；2026-08-20 起对 GLM5.1/5.2、DeepSeek-V4-Flash/Pro、Kimi-K2.6 等模型服务调价（新价以官网公告为准）",
+    basis:"共识区间 7.5–8.1；政企与国产化栈适配最强、上下架稳健",
+    note:"盘古自研与主流开源模型并重，免费服务分「不限额度但有时效」「需领取」两类，配套 Dify 等应用栈，政企交付能力强；短板是第三方模型的价格与活动口径分散在多份公告、公开价目表不直观，个人开发者友好度一般。"
+  },
+  {
+    name:"讯飞星火开放平台 / 星辰 MaaS", dev:"科大讯飞（iFLYTEK）", cat:"vendor",
+    score:7.8, avail:"free",
+    site:{label:"xinghuo.xfyun.cn", url:"https://xinghuo.xfyun.cn/"},
+    free:"个人开发者免费包 200 万 tokens、QPS 2、有效期 1 年；企业免费包 500 万 tokens",
+    price:"Spark-X2.5 限时 5 折：输入 1.6 元 / 缓存命中 0.24 元 / 输出 6 元；Spark-X2 与 X2-Flash 约 1~3 元 / 百万 tokens；星辰 MaaS Token Plan 标准成员 200 元/月起",
+    basis:"共识区间 7.5–8.1；语音与国产算力全栈适配见长",
+    note:"星火自研模型基于国产算力全栈训练，语音、超拟人交互与教育硬件场景积累深，个人免费额度给得实在、QPS 明确；短板是文本旗舰能力与生态开放度略逊头部，价格随活动波动大、限时折扣结束后的原价待观察。"
+  },
+  {
+    name:"阶跃星辰 StepFun 开放平台", dev:"阶跃星辰（StepFun）", cat:"vendor",
+    score:7.7, avail:"paid",
+    site:{label:"platform.stepfun.com", url:"https://platform.stepfun.com/"},
+    free:"待确认（图像模型 step-1x-medium 曾限时免费，其推荐替代 step-2x-large 已于 2026-06-12 结束限免，文本模型免费额度未公示）",
+    price:"step-5-preview 输入 7 元 / 输出 20 元；step-3.7-flash 输入 1.35 元 / 输出 8.1 元（缓存命中 0.27 元）；step-3.5-flash 输入 0.7 元 / 输出 2.1 元（每百万 tokens）",
+    basis:"共识区间 7.4–8.0；多模态与端侧模型迭代密集",
+    note:"以 step-3.x/5 旗舰与 Flash 分层定价，多模态理解、语音与图像模型齐全，端侧小模型与终端厂商合作紧密，国际站以美元报价；短板是限时免费到期后价格上抬、第三方托管价与官价并存易混淆，免费额度口径不稳定。"
+  },
+  {
+    name:"AI Ping", dev:"清程极智（Qingcheng.ai）", cat:"agg",
+    score:7.6, avail:"free",
+    site:{label:"aiping.cn", url:"https://www.aiping.cn/"},
+    free:"平台上线 GLM-4.7、MiniMax-M2.1 等免费模型并开放调用权益（额度与时长以平台活动页为准）",
+    price:"按所聚合服务商原价计费、平台不加价，无固定月费；具体单价以模型广场页面为准",
+    basis:"共识区间 7.3–7.9；中立性能评测与智能路由差异化明显",
+    note:"聚合 30 余家服务商、600 余项模型服务，提供 7×24 小时持续评测榜单与毫秒级智能路由，帮开发者选型与控成本，被称作「大模型 API 服务的大众点评」；短板是平台自身不产模型、价格与额度随上游变动，品牌知名度低于大厂平台。"
+  },
+  {
+    name:"商汤大装置 SenseCore（万象 ModelStudio）", dev:"商汤科技（SenseTime）", cat:"vendor",
+    score:7.5, avail:"free",
+    site:{label:"sensecore.cn", url:"https://www.sensecore.cn/"},
+    free:"日日新 SenseNova Token Plan 曾限时免费开放（2026-05 起）；万象平台部署 DeepSeek-V3/R1 等模型曾赠 3 个月 1000 万 tokens 权益（历史活动）",
+    price:"按量后付费；日日新与第三方模型的分层定价与套餐以控制台为准，本轮未取得完整公开价目表",
+    basis:"共识区间 7.2–7.8；Token 工厂规模化运营，国产算力利用率高",
+    note:"把算力、模型与智能体管控做成「Token 工厂」，日均 Token 服务量已达 2.42 万亿，并为多家外部基础模型厂商提供算力与推理托管；短板是公开价目与免费额度不透明、面向开发者的自助入口较弱，个人上手成本高。"
+  },
+  {
+    name:"蓝耘元生代 MaaS", dev:"蓝耘科技（Lanyun）", cat:"agg",
+    score:7.4, avail:"paid",
+    site:{label:"maas.lanyun.net", url:"https://maas.lanyun.net/"},
+    free:"待确认（官网未公示统一的新用户免费额度口径，需注册后在控制台查看）",
+    price:"DeepSeek-V3.2 输入 2 元 / 百万 tokens（第三方与官方文档口径）；Coding Plan 按月订阅，完整价目表以控制台为准",
+    basis:"共识区间 7.1–7.7；算力+网关双底座，企业侧性价比突出",
+    note:"定位企业级大模型统一网关与调度平台，兼容 OpenAI 与 Anthropic 协议，聚合 DeepSeek、Qwen、Kimi、GLM 等 100+ 模型，可从按量调用平滑迁移到专属算力与裸金属；短板是免费额度与完整价目表不透明，C 端体验与生态弱于头部平台。"
+  },
+  {
+    name:"无问芯穹 GenStudio", dev:"无问芯穹（Infinigence AI）", cat:"infra",
+    score:7.3, avail:"free",
+    site:{label:"infini-ai.com", url:"https://docs.infini-ai.com/"},
+    free:"自 2026-03-30 起停止提供基础版 LLM API 免费服务；GenStudio 体验中心（网页端）暂不计费，嵌入与重排序模型 API 暂不收费",
+    price:"预置 LLM API 按实际 Token 用量计费；基础版服务限流 RPM 12 / RPD 300 / TPM 12000，完整单价以计费文档为准",
+    basis:"共识区间 7.0–7.6；异构算力调度与国产芯片适配突出",
+    note:"主打多元异构算力调度与「无感」跨芯片切换，体验中心可零成本试模型、嵌入与重排 API 免费，适合国产化验证；短板是 2026-03-30 起取消基础版免费 LLM 额度、限流偏紧，面向个人的公开价目表不完整，品牌认知度低于大厂。"
+  },
+  {
+    name:"天翼云 星辰 TokenHub", dev:"中国电信 · 天翼云", cat:"agg",
+    score:7.2, avail:"free",
+    site:{label:"ctyun.cn/products/maas", url:"https://www.ctyun.cn/products/maas"},
+    free:"试用类模型统一赠 50 万 tokens 免费推理额度，领取后 14 天内有效",
+    price:"编程 Token Plan 29 元/月（3000 积分）起，个人与家庭版 Token Plan 9.9 元/个起；按量后付费，价格按积分折算",
+    basis:"共识区间 6.9–7.5；运营商合规背书，政企采购适配好",
+    note:"运营商背景的模型运营服务平台，聚合火山引擎、阿里云、MiniMax、智谱等主流模型，主打合规、一站式 Token 采购与全国产化交付；短板是模型更新滞后于原厂、积分与 tokens 折算不直观，开发者生态与文档体验薄弱。"
+  },
+  {
+    name:"模力方舟（Gitee AI）", dev:"开源中国 · Gitee", cat:"infra",
+    score:7.2, avail:"paid",
+    site:{label:"ai.gitee.com", url:"https://ai.gitee.com/"},
+    free:"待确认（平台页未在检索范围内取得统一免费额度口径，部分模型提供免费体验）",
+    price:"GLM-5 输入 4 元 / 输出 18 元（每百万 tokens），支持缓存与梯度计费；部分旧型号（如 DeepSeek-V3.2）已标注 2026-10-10 停用",
+    basis:"共识区间 6.9–7.5；信创场景模型托管与 Token 工厂路线",
+    note:"面向信创与国产化场景的 Serverless 模型托管平台，聚合 GLM、Qwen 等开源模型并提供企业级 Token 工厂与 API 网关；短板是模型迭代与上下架较频繁、部分型号停用时间表需关注，社区与文档完善度弱于头部平台。"
+  },
+  {
+    name:"百川智能开放平台", dev:"百川智能（Baichuan AI）", cat:"vendor",
+    score:6.9, avail:"paid",
+    site:{label:"platform.baichuan-ai.com", url:"https://platform.baichuan-ai.com/"},
+    free:"无公开免费额度（官方价格页未列出新用户赠送 tokens）",
+    price:"Baichuan-M2 输入 2 元 / 输出 20 元（0.002 元与 0.02 元每千 tokens）；Baichuan4-Turbo 输入输出合计 15 元 / 百万 tokens 口径",
+    basis:"共识区间 6.6–7.2；医疗垂类领先，通用 API 声量下滑",
+    note:"以 Baichuan-M2 医疗增强模型为差异化卖点，垂直行业解决方案与医疗数据积累较完整，兼容 OpenAI 协议；短板是通用旗舰迭代放缓、第三方托管与自营平台价差明显，开发者生态与免费额度存在感低。"
+  }
+];
+
+const PRICE_POINTS = [
+  {name:"阿里云百炼", x:0, y:8.6, free:false, lp:'right'},
+  {name:"火山方舟", x:0, y:8.5, free:false, lp:'right'},
+  {name:"智谱 AI", x:20, y:8.4, free:true, lp:'top'},
+  {name:"腾讯云 TokenHub", x:0, y:8.2, free:true, lp:'right'},
+  {name:"MiniMax", x:49, y:8.2, free:false, lp:'top'},
+  {name:"硅基流动", x:0, y:8.1, free:true, lp:'right'},
+  {name:"魔搭 ModelScope", x:0, y:8.0, free:true, lp:'right'},
+  {name:"华为云 MaaS", x:0, y:7.8, free:true, lp:'right'},
+  {name:"讯飞星火", x:200, y:7.8, free:true, lp:'top'},
+  {name:"阶跃星辰", x:99, y:7.7, free:false, lp:'top'},
+  {name:"AI Ping", x:0, y:7.6, free:true, lp:'right'},
+  {name:"商汤大装置", x:0, y:7.5, free:false, lp:'right'},
+  {name:"无问芯穹", x:0, y:7.3, free:true, lp:'right'},
+  {name:"天翼云 TokenHub", x:29, y:7.2, free:false, lp:'bottom'}
+];
+
+const TIMELINE = [
+  {when:'2025.09', what:'DeepSeek 新版价目表生效，取消原夜间时段优惠、统一为峰谷之外的常规计价', why:'国产 API 定价从「时段促销」转向「稳定低价」，第三方托管平台的价格空间被压缩，聚合层的竞争点开始转向路由与稳定性。', hot:false},
+  {when:'2025.10', what:'MiniMax 开源 M2 并以约 Sonnet 8% 的价格上线，随后于 11 月正式计费', why:'开源权重的低价旗舰成为国内聚合平台的「标配模型」，也让「同款模型不同平台价差」第一次成为开发者选型的主要变量。', hot:true},
+  {when:'2026.02', what:'清程极智上线 AI Ping 平台，聚合 30 余家服务商、600 余项模型服务', why:'国内出现以「中立性能评测 + 智能路由」为核心能力的第三方聚合平台，选型从看官网价目表变成看第三方实测榜单。', hot:true},
+  {when:'2026.03', what:'无问芯穹 GenStudio 停止提供基础版 LLM API 免费服务，并公布 RPM 12 / RPD 300 限流', why:'推理平台免费额度开始收口：算力成本压力下，「免费 API」被体验中心与非 LLM 模型（嵌入、重排）替代。', hot:false},
+  {when:'2026.05', what:'商汤发布 SenseNova 6.7 Flash-Lite 并将 Token Plan 限时免费开放；同期 DeepSeek 宣布 V4-Pro API 永久降价至原价约 1/4', why:'一手降价、一手限免同时出现，说明头部玩家在用价格换调用量，聚合平台则在同期承接这些低价模型做二次分发。', hot:true},
+  {when:'2026.06', what:'天翼云星辰 TokenHub 完成智谱 GLM-5.2 等模型的适配上架', why:'运营商平台开始成规模引入第三方模型，模型运营从大厂专属变成运营商与云厂商共同参与的生意。', hot:false},
+  {when:'2026.07', what:'商汤大装置披露日均 Token 服务量达 2.42 万亿；清程极智在 WAIC 2026 展出 AI Ping「Token 前店后厂」', why:'「Token 工厂 + 智能路由」成为国内模型服务的主流叙事，产业链分工进一步细化。', hot:false},
+  {when:'2026.08', what:'零一万物公告将逐步停止自助 API 平台服务，并开放余额退还通道', why:'第一批自研模型厂商出清：模型能力不足以支撑独立平台时，接入大厂开放平台或转为行业交付是更务实的选择。', hot:true},
+  {when:'2026.08', what:'DeepSeek 峰谷定价生效，V4-Pro 高峰时段输入 9 元、输出 27 元，缓存命中价同步上调', why:'低价惯例被打破，聚合平台的比价与路由价值上升；也促使开发者把非实时任务挪到空闲时段跑。', hot:true},
+  {when:'2026.08', what:'华为云 ModelArts Studio（中国站）对 GLM5.1/5.2、DeepSeek-V4 系列与 Kimi-K2.6 等模型服务调价', why:'云厂商侧的模型价格进入常态化调整期，「上架即低价」的窗口期结束，采购需要按季度复核。', hot:false},
+  {when:'2026.10', what:'智谱、讯飞、天翼云等平台的 Coding / Token 订阅套餐持续扩容，从按量计费延伸到月付套餐', why:'面向个人与中小团队的「模型订阅制」在国内成型，与海外 Poe、Mistral 的订阅路线趋同。', hot:false}
+];
+
+const VERIFIED = [
+  {name:'零一万物大模型开放平台', verdict:'<span class="tag">已停服</span>', note:'平台发布公告「将逐步停止面向用户提供在线体验、API 调用及充值等相关服务」，并开放余额退还与账号处理通道；2026-08-03 的第三方记录同样标注为自助 API 平台关停。该平台本轮不纳入主表。<br>信源：<a class="ext" href="https://platform.lingyiwanwu.com/">零一万物开放平台公告</a>、<a class="ext" href="https://usagepricing.com/platforms/lingyiwanwu">usagepricing.com 平台状态记录</a>'},
+  {name:'腾讯云大模型知识引擎（LKE）', verdict:'<span class="tag">非此类产品</span>', note:'LKE 定位为知识库与智能体应用构建平台（RAG、知识引擎、应用编排），不是「统一接入多模型」的 API 聚合平台，故不纳入主表；如需模型调用能力，对应产品是腾讯云 TokenHub。'},
+  {name:'昆仑万维 天工 / SkyProduction', verdict:'<span class="tag">非此类产品</span>', note:'现为 AI 短剧与视频创作工作台（整合 SkyReels、Seedance、可灵等视频模型），聚合对象限于视频生成，不提供面向开发者的通用大模型 API 路由能力，本轮不纳入主表。'},
+  {name:'天翼云「星辰」多条产品线', verdict:'<span class="tag">同名易混</span>', note:'天翼云同时存在「星辰 TokenHub 运营服务平台」（模型调用，已入主表）、「星辰 MaaS 智能体平台」（SaaS 智能体套餐，媒体口径 6.99 万元/年起）与中国电信自研「星辰大模型」基座，三者主体与计费体系不同，采购时须逐项区分。'},
+  {name:'智谱清言（chatglm.cn）', verdict:'<span class="tag">非此类产品</span>', note:'面向 C 端的对话与办公应用，不是 API 开放平台；开发者调用 GLM 模型的入口是 bigmodel.cn（已入主表）。'},
+  {name:'第三方 API 中转站（如 API易 apiyi.com 等）', verdict:'<span class="tag">非官方渠道</span>', note:'以「官方直连」「更低折扣」名义转售 OpenAI、Claude、Gemini 等模型，域名与官方无关、未获品牌授权，价格与额度可随时消失，数据合规与稳定性均无保障，不作为官方依据。'},
+  {name:'MiniMax 音乐模型（Music 全系列）', verdict:'<span class="tag">已停服（模型级）</span>', note:'官方公告 Music 全系列模型自 2026-08-20 起停止服务，需转至 Audio 平台或开源权重（Hugging Face / 魔搭）继续使用；属模型下线而非平台停运，OpenAI 兼容的文本模型服务不受影响。'},
+  {name:'火山引擎「豆包大模型资源包」', verdict:'<span class="tag">已下架</span>', note:'火山方舟官方文档标注「豆包大模型资源包（已下架）」，预付费资源包形态收拢，现以按量计费与节省计划为主；历史购买用户的用量处理以控制台提示为准。'}
+];
+
+const SOURCES = [
+  {p:"阿里云百炼 Model Studio", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/model-studio/model-pricing\">百炼模型价格总览</a>","价格（通义与第三方模型按输入/输出分档）、免费额度口径"],
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/model-studio/kimi-k2-6-by-moonshot\">百炼上架 Kimi K2.6（月之暗面）</a>","第三方模型覆盖范围"],
+    ["科技媒体","<a class=\"ext\" href=\"https://developer.aliyun.com/article/1768266\">阿里云开发者社区：百炼免费额度与计费调整解读</a>","免费额度由永久改为 90 天有效期的口径"]
+  ]},
+  {p:"火山方舟 Ark", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.volcengine.com/product/ark\">火山方舟产品页</a>","平台定位、模型广场与免费额度（每模型 50 万 tokens）"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.volcengine.com/docs/82379/1544106\">方舟模型计费与价格文档</a>","Doubao-Seed-Evolving 输入 6 元 / 输出 30 元等价格"],
+    ["官方站点","<a class=\"ext\" href=\"https://ai.volcengine.com/\">火山引擎智能体验中心</a>","模型清单与试用入口"]
+  ]},
+  {p:"DeepSeek 开放平台", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://api-docs.deepseek.com/zh-cn/quick_start/pricing/\">DeepSeek API 价格页</a>","V4-Pro / Flash 缓存命中与未命中单价、峰谷时段划分"],
+    ["科技媒体","<a class=\"ext\" href=\"https://m.ithome.com/html/989418.htm\">IT之家：DeepSeek 峰谷定价与涨幅</a>","2026-08-17 峰谷定价生效、高峰时段涨幅"],
+    ["科技媒体","<a class=\"ext\" href=\"http://m.ce.cn/bwzg/202605/t20260526_2987697.shtml\">中国经济网：DeepSeek V4-Pro 永久降价</a>","2026-05 永久降价至原价约 1/4 的时间线"]
+  ]},
+  {p:"智谱 AI 开放平台 BigModel", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.bigmodel.cn/pricing\">BigModel 价格页</a>","GLM-5.3 / 5.3-Flash 输入输出与缓存命中单价"],
+    ["官方文档","<a class=\"ext\" href=\"https://docs.bigmodel.cn/cn/guide/start/pricing\">智谱开放平台定价文档</a>","GLM 系列分档定价与上下文规格"],
+    ["官方文档","<a class=\"ext\" href=\"https://docs.bigmodel.cn/cn/update/promotion\">智谱优惠与活动说明</a>","Coding Plan 低至 20 元/月、知识库 1 GB 免费"]
+  ]},
+  {p:"腾讯云大模型服务平台 TokenHub", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://cloud.tencent.com/product/tokenhub\">腾讯云 TokenHub 产品页</a>","平台定位、模型数量（混元 + 14 款第三方）与定价形态"],
+    ["官方文档","<a class=\"ext\" href=\"https://cloud.tencent.com/document/product/1823/130053\">TokenHub 免费额度与计费文档</a>","新用户每模型 100 万 tokens、有效期 1 年"],
+    ["科技媒体","<a class=\"ext\" href=\"https://developer.cloud.tencent.com/article/2685603\">腾讯云开发者社区：主流大模型 API 价格横向整理</a>","混元与第三方模型价位的交叉验证"]
+  ]},
+  {p:"MiniMax 开放平台", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://platform.minimaxi.com/docs/guides/pricing-paygo\">MiniMax 按量计费定价</a>","M2 / M2.7 输入 2.1 元、输出 8.4 元与缓存读取价"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.minimaxi.com/blog/minimax-m2\">MiniMax M2 发布公告</a>","定价策略（Sonnet 约一成价格）与开源信息"],
+    ["官方文档","<a class=\"ext\" href=\"https://platform.minimaxi.com/docs/guides/pricing-token-plan\">MiniMax Token Plan 说明</a>","49 元/月起（Plus）等订阅档位"]
+  ]},
+  {p:"硅基流动 SiliconFlow", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://docs.siliconflow.cn/cn/userguide/introduction\">硅基流动产品文档</a>","平台定位、模型数量与 OpenAI 兼容接口"],
+    ["官方站点","<a class=\"ext\" href=\"https://cloud.siliconflow.cn/\">硅基流动控制台</a>","官方入口与模型广场"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.siliconflow.cn/pricing\">硅基流动价格与免费模型页</a>","模型价格（输入/输出分列）、永久免费模型清单"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.siliconflow.com/zh/pricing\">硅基流动国际站价格页</a>","国际站赠金与美元计价口径"]
+  ]},
+  {p:"月之暗面 Kimi 开放平台", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://platform.kimi.com/docs/pricing/chat\">Kimi 开放平台价格文档</a>","kimi-k2.6 输入 6.5 元 / 输出 27 元、缓存命中 1.1 元"],
+    ["官方站点","<a class=\"ext\" href=\"https://platform.moonshot.cn/\">Moonshot 开放平台</a>","官方入口与控制台"],
+    ["官方文档","<a class=\"ext\" href=\"https://platform.kimi.com/docs/pricing/batch\">Kimi Batch 推理定价</a>","Batch 5 折等计费规则"]
+  ]},
+  {p:"魔搭 ModelScope", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.modelscope.cn/\">魔搭社区</a>","社区定位、模型下载与 API-Inference 入口"],
+    ["科技媒体","<a class=\"ext\" href=\"https://cloud.tencent.com/developer/article/2626756\">腾讯云开发者社区：模型平台免费额度汇总</a>","每日免费调用额度（约 2000 次/日、单模型 500 次）的第三方整理口径"]
+  ]},
+  {p:"百度智能云千帆 Qianfan", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://bce-cdn.bj.bcebos.com/p3m/pdf/bce-doc/WENXINWORKSHOP.pdf\">千帆 ModelBuilder / 预置服务计费文档（PDF）</a>","DeepSeek-V3.1-Terminus 价格与 RPM 2500 / TPM 500000 限流口径"],
+    ["官方文档","<a class=\"ext\" href=\"https://wenxinyiyan.apifox.cn/doc-3251580\">文心一言 API 文档</a>","ERNIE 系列模型的接口与限流说明"],
+    ["科技媒体","<a class=\"ext\" href=\"https://developer.cloud.tencent.com/article/2685603\">腾讯云开发者社区：主流大模型 API 价格横向整理</a>","千帆与其他平台价位的交叉验证"]
+  ]},
+  {p:"华为云 ModelArts Studio（MaaS）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.huaweicloud.com/notice/20260805172653249.html\">华为云 ModelArts Studio 模型服务价格调整公告（2026-08）</a>","调价时间与涉及模型（GLM5.1/5.2、DeepSeek-V4、Kimi-K2.6）"],
+    ["官方文档","<a class=\"ext\" href=\"https://support.huaweicloud.com/usermanual-maas-modelarts/\">ModelArts Studio（MaaS）用户指南</a>","免费服务额度、预置服务开通与计费说明"],
+    ["用户社区","<a class=\"ext\" href=\"https://bbs.huaweicloud.com/blogs/473783\">华为云社区：MaaS 免费服务额度与代金券说明</a>","免费额度两类口径（不限额度但有时效 / 需领取）"]
+  ]},
+  {p:"讯飞星火开放平台 / 星辰 MaaS", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://xinghuo.xfyun.cn/sparkapi\">讯飞星火开放平台·服务与价格</a>","Spark-X2.5 / X2 / X2-Flash 价格与限时折扣"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.xfyun.cn/services/kjwx\">讯飞开放平台·科技文献/通用服务页</a>","平台服务范围与 Token 包口径"],
+    ["官方站点","<a class=\"ext\" href=\"https://maas.xfyun.cn/\">讯飞星辰 MaaS 平台</a>","模型服务目录、免费包与企业套餐口径"]
+  ]},
+  {p:"阶跃星辰 StepFun 开放平台", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://platform.stepfun.com/docs/zh/guides/pricing/details\">StepFun 模型定价详情</a>","step-5-preview / 3.7-flash / 3.5-flash 输入输出单价"],
+    ["官方文档","<a class=\"ext\" href=\"https://platform.stepfun.com/docs/zh/guides/model-migration\">StepFun 模型迁移与下线说明</a>","step-2x-large 等模型限免结束与迁移时点"],
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/model-studio/step-3-7-flash\">百炼上架 step-3.7-flash 说明</a>","第三方平台上架与价格一致性交叉验证"]
+  ]},
+  {p:"AI Ping", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://www.aiping.cn/docs/\">AI Ping 产品文档</a>","平台定位（评测 + 一站式调用）、统一 API 与智能路由能力"],
+    ["科技媒体","<a class=\"ext\" href=\"http://cn.chinadaily.com.cn/a/202607/20/WS6a5df560a310d709c2fbe9fc.html\">中国日报网：清程极智首创 Token「前店后厂」</a>","聚合 30 余家服务商、600 余项模型服务与毫秒级路由"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.qc-ai.cn/\">清程极智官网</a>","AI Ping 与赤兔推理引擎的产品关系"]
+  ]},
+  {p:"商汤大装置 SenseCore（万象 ModelStudio）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.sensecore.cn/product\">商汤大装置产品页</a>","万象模型开发平台、大模型即服务与日日新模型入口"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.sensecore.cn/developer/article/posts/23\">万象平台模型部署公告（DeepSeek 系列赠 1000 万 tokens）</a>","免费额度历史活动口径"],
+    ["科技媒体","<a class=\"ext\" href=\"https://www.news.cn/tech/20260718/4b0e9ec5d0d94a8c9dd3b34a13dcd184/c.html\">新华网：商汤大装置日均 Token 服务量 2.42 万亿</a>","规模化运营数据与时间线"]
+  ]},
+  {p:"蓝耘元生代 MaaS", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://maas.lanyun.net/\">蓝耘元生代 MaaS 平台</a>","企业级大模型统一网关定位、100+ 模型与 API 入口"],
+    ["官方文档","<a class=\"ext\" href=\"https://archive.lanyun.net/#/maas/README\">蓝耘 MaaS 接入文档</a>","OpenAI 兼容 base_url 与接入方式"],
+    ["官方文档","<a class=\"ext\" href=\"https://archive.lanyun.net/maas/CodingPlan.md\">蓝耘 Coding Plan 说明</a>","订阅制套餐与 Anthropic 协议兼容口径"],
+    ["用户社区","<a class=\"ext\" href=\"https://cloud.tencent.com/developer/article/2679910\">腾讯云开发者社区：蓝耘 MaaS 接入实录</a>","实际接入配置与模型命名规则"]
+  ]},
+  {p:"无问芯穹 GenStudio", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://docs.infini-ai.com/gen-studio/api/usage-and-billing/billing.html\">GenStudio 计费与用量说明</a>","2026-03-30 停止基础版免费服务、体验中心暂不计费"],
+    ["官方文档","<a class=\"ext\" href=\"https://docs.infini-ai.com/support/\">GenStudio 支持与限流说明</a>","RPM 12 / RPD 300 / TPM 12000 限流口径"]
+  ]},
+  {p:"天翼云 星辰 TokenHub", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.ctyun.cn/products/maas\">天翼云大模型服务平台（星辰 TokenHub）</a>","平台定位、Token Plan 档位与聚合模型清单"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.ctyun.cn/document/11061839/00000000\">天翼云大模型服务计费文档</a>","免费额度（50 万 tokens、14 天有效）与积分折算"],
+    ["科技媒体","<a class=\"ext\" href=\"https://www.cnii.com.cn/rmydb/202606/t20260623_712613.html\">人民邮电报：天翼云星辰 TokenHub 上架 GLM-5.2</a>","模型适配上架时间线"]
+  ]},
+  {p:"模力方舟（Gitee AI）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://ai.gitee.com/serverless-api\">模力方舟 Serverless API</a>","GLM-5 输入 4 元 / 输出 18 元等价格与模型清单"],
+    ["官方站点","<a class=\"ext\" href=\"https://ai.gitee.com/\">模力方舟首页</a>","官方入口与平台定位"],
+    ["用户社区","<a class=\"ext\" href=\"https://juejin.cn/post/7546782024786722867\">掘金：国内主流大模型 API 平台价格汇总</a>","模型上下架（2026-10-10 部分型号停用）与价格交叉验证"]
+  ]},
+  {p:"百川智能开放平台", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://platform.baichuan-ai.com/prices\">百川智能价格页</a>","Baichuan-M2 输入 0.002 元 / 输出 0.02 元每千 tokens，Baichuan4-Turbo 0.015 元每千 tokens"],
+    ["科技媒体","<a class=\"ext\" href=\"https://www.llmabacus.com/zh/guide/chinese-llm-api-pricing\">LLM Abacus：中国大模型 API 价格整理</a>","折算为每百万 tokens 的人民币口径交叉验证"],
+    ["用户社区","<a class=\"ext\" href=\"https://juejin.cn/post/7546782024786722867\">掘金：国内主流大模型 API 平台价格汇总</a>","第三方托管与自营平台价差"]
+  ]},
+  {p:"价格与免费额度汇总（第三方整理）", items:[
+    ["科技媒体","<a class=\"ext\" href=\"https://developer.cloud.tencent.com/article/2685603\">腾讯云开发者社区：主流大模型 API 价格横向整理</a>","多云价格交叉验证与免费起步路径"],
+    ["科技媒体","<a class=\"ext\" href=\"https://cloud.tencent.com/developer/article/2626756\">腾讯云开发者社区：模型平台免费额度汇总</a>","各平台免费额度的第三方整理口径"],
+    ["官方文档","<a class=\"ext\" href=\"https://platform.minimaxi.com/docs/guides/pricing-paygo\">MiniMax 定价文档</a>","作为「同款模型不同平台价差」的官方锚点"]
+  ]}
+];
+
+const TODOS = [
+  ["蓝耘元生代 MaaS","官网未公示统一的新用户免费额度与完整价目表（仅见 DeepSeek-V3.2 输入 2 元/百万 tokens 的第三方引用与 Coding Plan 配置说明），免费额度与全量价格待官方确认。"],
+  ["百度智能云千帆","新用户免费额度以活动页与体验券形式发放，未取得统一的官方数值；ERNIE 系列按上下文阶梯计价，完整价目表需登录控制台查看，本轮仅引用第三方整理口径。"],
+  ["MiniMax 开放平台","未检索到官方公示的新用户免费 token 额度；API 按量价与 Token Plan 三档订阅并存，两者折算关系以官方为准。"],
+  ["阶跃星辰 StepFun","step-1x-medium 的限时免费与 step-2x-large 的限免结束时间以公告为准，文本模型当前免费额度未公示；第三方托管价与官价并存，价格需按官方价目页复核。"],
+  ["华为云 ModelArts Studio","免费服务分「不限额度但有时效」与「需领取」两类，具体额度与代金券适用范围未统一公示；2026-08-20 调价后的完整价目表与促销价需登录控制台核对。"],
+  ["商汤大装置","公开价目表与免费额度口径不完整：日日新 Token Plan 的限时免费已结束，当前订阅价格与按量单价待确认；历史赠送活动（1000 万 tokens / 3 个月）是否延续亦未公示。"],
+  ["模力方舟（Gitee AI）","统一免费额度口径未在检索范围内取得；平台部分型号已标注 2026-10-10 停用，模型清单与价格变动频繁，需以平台公告为准。"],
+  ["天翼云 星辰 TokenHub","免费额度为「领取后 14 天有效」的活动口径，活动结束后是否延续未公示；积分与 tokens 的换算比例以计费文档与控制台为准。"],
+  ["阿里云百炼","通义系免费额度为「开通后 90 天内有效」，部分部署范围与第三方模型无免费额度；资源包折扣与实际单价以权益中心页面为准。"],
+  ["火山方舟 Ark","免费额度按模型逐个发放（每个模型 50 万 tokens），累计口径与活动截止时间随页面变动；节省计划折扣规则以控制台为准。"],
+  ["讯飞星火开放平台 / 星辰 MaaS","个人 200 万 tokens / 企业 500 万 tokens 免费包为活动口径；Spark-X2.5 的限时 5 折何时恢复原价未公示，Token Plan 各档权益亦需以页面为准。"],
+  ["腾讯云 TokenHub","免费额度活动的截止时间各页口径不一（文档写「本期活动截至 2026-12-03」，产品页写「截至 2026-12-31」），且企业版 Token Plan 的积分折算规则未完整公示。"],
+  ["智谱 AI 开放平台","长期免费模型清单、新人体验额度与 Coding Plan 折扣（低至 20 元/月）均为活动口径，长期有效性与续费价格待官方确认。"],
+  ["AI Ping","平台自身不加价，价格与免费模型权益完全跟随上游服务商；免费模型的额度、时限与停用时点以其平台活动页为准，本轮未取得固定数值。"]
+];
+
+/* ================= 渲染：总表 ================= */
+const CAT = {agg:'聚合路由平台', cloud:'云厂商开放平台', vendor:'模型厂商开放平台', infra:'推理 / 算力平台'};
+const CAT_TAG = {agg:'cat-video', cloud:'cat-live', vendor:'cat-clone', infra:'cat-interactive'};
+const tableEl = document.getElementById('mainTable');
+PRODUCTS.forEach(function(p){
+  const availTag = p.avail === 'free'
+    ? '<span class="tag free">可免费使用</span>'
+    : '<span class="tag paid">付费或仅 API</span>';
+  const catTag = '<span class="tag ' + CAT_TAG[p.cat] + '">' + CAT[p.cat] + '</span>';
+  const scoreHtml = (p.score === null)
+    ? '<span class="score na">—</span>'
+    : '<span class="score">' + p.score.toFixed(1) + '</span>';
+  const priceHtml = p.price + (p.cny ? '<span class="note-inline" style="display:block;margin-top:3px">' + p.cny + '</span>' : '');
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td data-label="产品 / 开发方"><span class="pname">' + p.name + '</span><span class="dev">' + p.dev + '</span><span style="display:block;margin-top:6px">' + catTag + availTag + '</span></td>' +
+    '<td data-label="评分">' + scoreHtml + '</td>' +
+    '<td data-label="评分依据"><span class="basis">' + p.basis + '</span></td>' +
+    '<td data-label="官方入口"><a class="ext" href="' + p.site.url + '">' + p.site.label + '</a></td>' +
+    '<td data-label="免费额度">' + p.free + '</td>' +
+    '<td data-label="价格">' + priceHtml + '</td>' +
+    '<td data-label="特点与局限">' + p.note + '</td>';
+  tableEl.appendChild(tr);
+});
+document.getElementById('tableCaption').textContent =
+  '注：评分为主观共识评分（满分 10），非厂商官方指标。价格与免费额度均以 2026-10-08 公开信息为准；标注「待确认」表示本轮未取得可靠官方口径。';
+
+/* ================= 渲染：时间线 ================= */
+const tlEl = document.getElementById('timeline');
+TIMELINE.forEach(function(t){
+  var d = document.createElement('div');
+  d.className = 'tnode' + (t.hot ? ' hot' : '');
+  d.innerHTML = '<div class="when">' + t.when + '</div><div class="axis"><i class="dot"></i></div>' +
+                '<div class="body"><p class="what">' + t.what + '</p><p class="why">' + t.why + '</p></div>';
+  tlEl.appendChild(d);
+});
+
+/* ================= 渲染：核验表 ================= */
+const vEl = document.getElementById('verifyTable');
+VERIFIED.forEach(function(v){
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td data-label="厂商 / 产品"><span class="pname">' + v.name + '</span></td>' +
+                 '<td data-label="核验结论">' + v.verdict + '</td>' +
+                 '<td data-label="说明">' + v.note + '</td>';
+  vEl.appendChild(tr);
+});
+
+/* ================= 渲染：信源索引 ================= */
+const srcEl = document.getElementById('sourceIndex');
+SOURCES.forEach(function(g){
+  var h = document.createElement('div');
+  h.className = 'srcgrp';
+  var rows = g.items.map(function(it){
+    var link = /^https?:/.test(it[1]) ? '<a class="ext" href="' + it[1] + '">' + it[1] + '</a>' : it[1];
+    link = link.replace(/・/g, '<br>');
+    return '<li class="srcitem">' +
+           '<span class="srclabel">' + it[0] + '</span>' +
+           '<span class="srcbody">' + link +
+           '<span class="srcfield">支撑字段：' + it[2] + '</span></span></li>';
+  }).join('');
+  h.innerHTML = '<h3>' + g.p + '</h3><ul class="srclist">' + rows + '</ul>';
+  srcEl.appendChild(h);
+});
+
+/* ================= 渲染：待确认 ================= */
+const todoEl = document.getElementById('todoList');
+TODOS.forEach(function(t, i){
+  var d = document.createElement('div');
+  d.className = 't';
+  d.innerHTML = '<div class="n">' + (i + 1) + '</div><div class="c"><b>' + t[0] + '：</b>' + t[1] + '</div>';
+  todoEl.appendChild(d);
+});
+
+/* ================= ECharts ================= */
+var C = {primary:'#12564C', accent:'#C4762A', ink:'#1F2329', ink2:'#646A73', ink3:'#8A939B', line:'#DEE3E8'};
+var CAT_COLOR = {agg:'#12564C', cloud:'#C4762A', vendor:'#4E7BA6', infra:'#7C8A5A'};
+var FONT = '"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif';
+
+function renderScore(){
+  var el = document.getElementById('chartScore');
+  if(!el || typeof echarts === 'undefined') return;
+  var data = PRODUCTS.filter(function(p){return p.score !== null;})
+                     .slice().sort(function(a,b){return a.score - b.score;});
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:72, top:18, bottom:34, containLabel:true},
+    tooltip:{
+      trigger:'axis', axisPointer:{type:'shadow'},
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var i = ps[0].dataIndex, p = data[i];
+        return '<b>' + p.name + '</b><br/>综合评分：' + p.score.toFixed(1) + ' / 10<br/>品类：' + CAT[p.cat] +
+               '<br/>开发者：' + p.dev + '<br/>评分依据：' + p.basis;
+      }
+    },
+    xAxis:{
+      type:'value', min:0, max:10, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'category',
+      data:data.map(function(p){return p.name;}),
+      axisLine:{show:false}, axisTick:{show:false},
+      axisLabel:{color:C.ink, fontFamily:FONT, fontSize:13.5}
+    },
+    series:[{
+      type:'bar', barWidth:'58%',
+      data:data.map(function(p){
+        return {
+          value:p.score,
+          itemStyle:{color:CAT_COLOR[p.cat], borderRadius:[0,3,3,0]}
+        };
+      }),
+      label:{
+        show:true, position:'right', fontFamily:FONT, fontSize:13.5,
+        fontWeight:'bold', color:C.ink, formatter:function(ps){return ps.value.toFixed(1);}
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+function renderPrice(){
+  var el = document.getElementById('chartPrice');
+  if(!el || typeof echarts === 'undefined' || !PRICE_POINTS.length) return;
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:40, top:26, bottom:56, containLabel:true},
+    tooltip:{
+      trigger:'item',
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var d = ps.data, v = d.value;
+        return '<b>' + d.name + '</b><br/>最低付费月费：' + (v[0] === 0 ? '0（完全免费）' : '¥' + v[0] + '/月') +
+               '<br/>综合评分：' + v[1].toFixed(1);
+      }
+    },
+    xAxis:{
+      type:'value', min:-8, max:300,
+      axisLine:{lineStyle:{color:C.line}}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13, formatter:'{value}'},
+      name:'最低付费月费（元）', nameLocation:'middle', nameGap:34,
+      nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'value', min:6.4, max:9.2, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13},
+      name:'综合评分', nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    series:[{
+      type:'scatter',
+      symbolSize:16,
+      data:PRICE_POINTS.map(function(p){
+        return {
+          name:p.name,
+          value:[p.x, p.y],
+          free:p.free,
+          label:{position:p.lp, distance:10}
+        };
+      }),
+      itemStyle:{
+        color:function(ps){return ps.data.free ? C.primary : C.accent;},
+        borderColor:'#fff', borderWidth:1.5
+      },
+      label:{
+        show:true, fontFamily:FONT, fontSize:12.5, color:C.ink,
+        formatter:function(ps){return ps.data.name;}
+      },
+      markLine:{
+        silent:true, symbol:'none',
+        lineStyle:{color:C.primary, type:'dashed', width:1, opacity:.55},
+        label:{show:true, position:'insideEndTop', fontFamily:FONT, fontSize:12, color:C.primary,
+               formatter:'完全免费区'},
+        data:[{xAxis:0}]
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+renderScore();
+renderPrice();
+</script>
+
+</main>
+
+</body>
+</html>
