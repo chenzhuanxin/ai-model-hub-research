@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png" width="120" alt="ai-model-hub-research"></p>
+
 # 国内外 AI 模型聚合服务平台调研（2026-10）
 
 覆盖 **中国大陆 20 项 + 海外 21 项** AI 模型聚合 / 开放平台（模型 API 托管与路由、统一接入多模型），四类全覆盖：聚合路由平台、云厂商开放平台、模型厂商开放平台、推理与算力平台。
